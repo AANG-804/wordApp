@@ -1,17 +1,18 @@
 # WordApp
 
-새로운 단어를 관리하고 학습하는 데 도움을 주기 위해 설계된 개인용 단어장 애플리케이션입니다. 이 프로젝트는 새로운 어휘를 기록하고 복습하는 과정을 간소화하기 위해 개인적인 용도로 개발되었습니다.  
+새로운 단어를 관리하고 학습하는 데 도움을 주기 위해 설계된 개인용 단어장 macOS 애플리케이션입니다. 이 프로젝트는 새로운 어휘를 기록하고 복습하는 과정을 간소화하기 위해 개인적인 용도로 개발되었습니다.  
 <p align="center">
   <img src="https://github.com/user-attachments/assets/2dcee3c7-d4ea-4c20-a348-ae90a3642598" alt="image" width="715" height="611" />
 </p>
 
-### 주요 기능
+### 요약
 1. 프롬프트 필터링:사용자의 입력(영어 단어 검색)에서 영어 단어/구를 필터링합니다. 간단한 오타는 자동으로 수정하고, invalid input을 입력한 경우에는 에러 메세지를 반환합니다.
 2. 구조화된 출력: 영어 단어 검색 결과를 발음 기호, 발음, 예문으로 구조화해서 출력합니다.
 3. 히스토리 기능: 영어 단어 검색 결과는 카드로 저장되며, 히스토리가 남기 때문에 이전 검색 결과를 열람할 수 있습니다.
 4. Notion 데이터베이스 연동: 검색 결과를 즉시 Notion 데이터베이스에 저장할 수 있습니다. (Notion 데이터베이스를 이용해 단어장을 생성하고 학습할 수 있습니다. / 추후 Notion 템플릿 공유 예정)
+5. 고정 기능: 우측 상단의 핀 버튼을 통해 가장 상단에 고정할 수 있습니다. 
 
-**[Antigravity](https://github.com/google-deepmind/antigravity)** (Agentic AI Coding Assistant)를 사용하여 개발되었습니다.
+**[Antigravity](https://antigravity.google)** (Agentic AI Coding Assistant)를 사용하여 개발되었습니다.
 
 ## 주요 기능 (Features)
 
