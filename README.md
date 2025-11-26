@@ -1,7 +1,9 @@
 # WordApp
 
-새로운 단어를 관리하고 학습하는 데 도움을 주기 위해 설계된 개인용 단어장 애플리케이션입니다. 이 프로젝트는 새로운 어휘를 기록하고 복습하는 과정을 간소화하기 위해 개인적인 용도로 개발되었습니다.
-<img width="715" height="611" alt="image" src="https://github.com/user-attachments/assets/2dcee3c7-d4ea-4c20-a348-ae90a3642598" />
+새로운 단어를 관리하고 학습하는 데 도움을 주기 위해 설계된 개인용 단어장 애플리케이션입니다. 이 프로젝트는 새로운 어휘를 기록하고 복습하는 과정을 간소화하기 위해 개인적인 용도로 개발되었습니다.  
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/2dcee3c7-d4ea-4c20-a348-ae90a3642598" alt="image" width="715" height="611" />
+</p>
 
 ### 주요 기능
 1. 프롬프트 필터링:사용자의 입력(영어 단어 검색)에서 영어 단어/구를 필터링합니다. 간단한 오타는 자동으로 수정하고, invalid input을 입력한 경우에는 에러 메세지를 반환합니다.
