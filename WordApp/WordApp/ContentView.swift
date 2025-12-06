@@ -25,7 +25,7 @@ struct ContentView: View {
                     }
                     .buttonStyle(.plain)
                     .help(isPinned ? "Unpin from top" : "Pin to top")
-                    .onChange(of: isPinned) { newValue in
+                    .onChange(of: isPinned) { _, newValue in
                         if let window = NSApp.windows.first(where: { $0.isKeyWindow }) {
                             window.level = newValue ? .floating : .normal
                         }
@@ -181,19 +181,16 @@ struct ContentView: View {
                                         }
                                     }
                                 }
-                                }
+
                                 .padding()
                                 .background(
                                     Group {
-                                        if let saveStatus = item.saveStatus {
-                                            if saveStatus.contains("Success") || saveStatus.contains("Duplicate") {
-                                                Color.green.opacity(0.2)
-                                            } else if saveStatus.contains("failed") || saveStatus.contains("Failed") {
-                                                Color.red.opacity(0.2)
-                                            } else {
-                                                Color(nsColor: .controlBackgroundColor)
-                                            }
-                                        } else {
+                                        switch item.saveState {
+                                        case .success, .duplicate:
+                                            Color.green.opacity(0.1)
+                                        case .error:
+                                            Color.red.opacity(0.1)
+                                        case .none:
                                             Color(nsColor: .controlBackgroundColor)
                                         }
                                     }

@@ -23,14 +23,22 @@ enum SearchStatus: Equatable {
     case error(String)
 }
 
+enum SaveState: Equatable {
+    case none
+    case success
+    case duplicate
+    case error
+}
+
 struct SearchItem: Identifiable, Equatable {
     let id = UUID()
     let query: String
     var status: SearchStatus
     var saveStatus: String? = nil
+    var saveState: SaveState = .none
     
     static func == (lhs: SearchItem, rhs: SearchItem) -> Bool {
-        return lhs.id == rhs.id && lhs.status == rhs.status && lhs.saveStatus == rhs.saveStatus
+        return lhs.id == rhs.id && lhs.status == rhs.status && lhs.saveStatus == rhs.saveStatus && lhs.saveState == rhs.saveState
     }
 }
 
@@ -152,33 +160,43 @@ class NetworkManager: ObservableObject {
                 guard let self = self else { return }
                 
                 let message: String
+                var newState: SaveState = .none
+                
                 if let error = error {
                     message = "Save failed: \(error.localizedDescription)"
+                    newState = .error
                 } else if let httpResponse = response as? HTTPURLResponse {
                     if httpResponse.statusCode == 200 {
                         message = "Successfully saved to Notion!"
+                        newState = .success
                     } else if httpResponse.statusCode == 409 {
                         message = "Duplicate: Word already exists in Notion"
+                        newState = .duplicate
                     } else {
                         message = "Failed to save to Notion"
+                        newState = .error
                     }
                 } else {
                     message = "Failed to save to Notion"
+                    newState = .error
                 }
                 
-                self.updateSaveStatus(id: item.id, message: message)
+                self.updateSaveStatus(id: item.id, message: message, state: newState)
                 
                 // Clear message after 3 seconds
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    self.updateSaveStatus(id: item.id, message: nil)
+                    self.updateSaveStatus(id: item.id, message: nil, state: nil) // Pass nil to keep existing state
                 }
             }
         }.resume()
     }
     
-    private func updateSaveStatus(id: UUID, message: String?) {
+    private func updateSaveStatus(id: UUID, message: String?, state: SaveState? = nil) {
         if let index = history.firstIndex(where: { $0.id == id }) {
             history[index].saveStatus = message
+            if let state = state {
+                history[index].saveState = state
+            }
         }
     }
 }
