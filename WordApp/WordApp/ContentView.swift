@@ -181,8 +181,23 @@ struct ContentView: View {
                                         }
                                     }
                                 }
+                                }
                                 .padding()
-                                .background(Color(nsColor: .controlBackgroundColor))
+                                .background(
+                                    Group {
+                                        if let saveStatus = item.saveStatus {
+                                            if saveStatus.contains("Success") || saveStatus.contains("Duplicate") {
+                                                Color.green.opacity(0.2)
+                                            } else if saveStatus.contains("failed") || saveStatus.contains("Failed") {
+                                                Color.red.opacity(0.2)
+                                            } else {
+                                                Color(nsColor: .controlBackgroundColor)
+                                            }
+                                        } else {
+                                            Color(nsColor: .controlBackgroundColor)
+                                        }
+                                    }
+                                )
                                 .cornerRadius(12)
                                 .shadow(radius: 2)
                             }

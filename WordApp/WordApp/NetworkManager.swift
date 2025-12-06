@@ -154,8 +154,14 @@ class NetworkManager: ObservableObject {
                 let message: String
                 if let error = error {
                     message = "Save failed: \(error.localizedDescription)"
-                } else if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-                    message = "Successfully saved to Notion!"
+                } else if let httpResponse = response as? HTTPURLResponse {
+                    if httpResponse.statusCode == 200 {
+                        message = "Successfully saved to Notion!"
+                    } else if httpResponse.statusCode == 409 {
+                        message = "Duplicate: Word already exists in Notion"
+                    } else {
+                        message = "Failed to save to Notion"
+                    }
                 } else {
                     message = "Failed to save to Notion"
                 }

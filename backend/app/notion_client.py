@@ -8,7 +8,50 @@ def get_notion_client():
         raise ValueError("NOTION_TOKEN is not set")
     return Client(auth=token)
 
+import httpx
+
+async def check_word_exists(word: str) -> bool:
+    token = os.getenv("NOTION_TOKEN")
+    database_id = os.getenv("NOTION_DATABASE_ID")
+    if not database_id:
+        raise ValueError("NOTION_DATABASE_ID is not set")
+    
+    database_id = database_id.replace("-", "")
+    
+    url = f"https://api.notion.com/v1/databases/{database_id}/query"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Notion-Version": "2022-06-28",
+        "Content-Type": "application/json"
+    }
+    
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            url,
+            headers=headers,
+            json={
+                "filter": {
+                    "property": "단어",
+                    "title": {
+                        "equals": word
+                    }
+                }
+            }
+        )
+        
+    if response.status_code != 200:
+        # Fallback or log error? For now, assume no duplicate if error, or raise?
+        # Raising is safer to prevent duplicates if API fails.
+        raise ValueError(f"Failed to check Notion: {response.text}")
+        
+    data = response.json()
+    return len(data.get("results", [])) > 0
+
 async def add_word_to_database(data: WordDefinition):
+    # Check for duplicates first
+    if await check_word_exists(data.word):
+        raise ValueError("Duplicate word")
+
     notion = get_notion_client()
     database_id = os.getenv("NOTION_DATABASE_ID")
     if not database_id:

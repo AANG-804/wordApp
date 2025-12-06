@@ -45,6 +45,10 @@ async def save_word(request: SaveRequest):
     try:
         await add_word_to_database(request.definition)
         return {"status": "success", "message": "Saved to Notion"}
+    except ValueError as e:
+        if str(e) == "Duplicate word":
+             raise HTTPException(status_code=409, detail="Word already exists in Notion")
+        raise HTTPException(status_code=500, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
